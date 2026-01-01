@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Store</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
+    color: #333;
+  }
+  a { text-decoration: none; }
+
+  header {
+    position: relative;
+    height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+  }
+  header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+  }
+  header h1 {
+    position: relative;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    background-color: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  @media(min-width:768px) { header h1 { font-size: 3rem; } }
+
+  main {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  section.form-section {
+    background-color: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 4rem;
+  }
+  section.form-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1f2937;
+  }
+  form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media(min-width:768px) { form { grid-template-columns: 1fr 1fr; } }
+  input, select {
+    padding: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 1rem;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+  }
+  input:focus, select:focus { border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,0.3); }
+  button[type="submit"] {
+    grid-column: span 1;
+    background: linear-gradient(to right, #8b5cf6, #3b82f6);
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  @media(min-width:768px){ button[type="submit"] { grid-column: span 2; } }
+  button[type="submit"]:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+  section.book-list h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1f2937;
+  }
+  .book-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media(min-width:768px) { .book-grid { grid-template-columns: 1fr 1fr; } }
+
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 490px;
+    height:250px;
+    gap: 2rem;
+    background-color: white;
+    border-radius: 2rem;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-left: 5px solid #8b5cf6;
+  }
+  .book-card:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+  .book-card img {
+    width: 9rem;
+    height: 12rem;
+    object-fit: cover;
+    border-radius: 1rem;
+    border: 1px solid #d1d5db;
+    transition: transform 0.3s;
+  }
+  .book-card img:hover { transform: scale(1.05); }
+
+  .book-info {
+    flex: 1;
+    text-align: center;
+  }
+  @media(min-width:768px) { .book-card { flex-direction: row; text-align: left; } .book-info { text-align: left; } }
+
+  .book-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+  .book-info p { margin-bottom: 0.5rem; color: #374151; }
+  .book-info span { font-weight: 600; }
+
+  .book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  @media(min-width:768px) { .book-actions { flex-direction: row; } }
+  .book-actions button {
+    padding: 0.5rem 1.25rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+  }
+  .book-actions .edit-btn {
+    background-color: #facc15;
+  }
+  .book-actions .edit-btn:hover {
+    background-color: #eab308;
+    transform: scale(1.05);
+  }
+  .book-actions .delete-btn {
+    background-color: #ef4444;
+    color: white;
+  }
+  .book-actions .delete-btn:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Book Store</h1>
+</header>
+
+<main>
+
+  <section class="form-section">
+    <h2>Add a New Book</h2>
+    <form action="/appData" method="post">
+      <input type="text" name="name" placeholder="Book Name">
+      <input type="text" name="author" placeholder="Author">
+      <input type="text" name="price" placeholder="Price">
+      <select name="category">
+        <option hidden>Choose Category</option>
+        <option value="novel">Novel</option>
+        <option value="study">Study</option>
+        <option value="comics">Comics</option>
+        <option value="motivation">Motivation</option>
+      </select>
+      <select name="lang">
+        <option hidden>Choose Language</option>
+        <option value="gujrati">Gujrati</option>
+        <option value="hindi">Hindi</option>
+        <option value="english">English</option>
+      </select>
+      <input type="text" name="image" placeholder="Enter Image URL">
+      <button type="submit">Add Book</button>
+    </form>
+  </section>
+
+  <section class="book-list">
+    <h2>Book List</h2>
+    <div class="book-grid">
+      <% data.map((e,i)=> { %>
+      <div class="book-card">
+        <img src="<%= e.image ? e.image : 'https://via.placeholder.com/150x200.png?text=Book' %>" alt="<%= e.name %>">
+        <div class="book-info">
+          <h3><%= e.name %></h3>
+          <p><span>Author:</span> <%= e.author %></p>
+          <p><span>Price:</span> ₹<%= e.price %></p>
+          <p><span>Category:</span> <%= e.category %></p>
+          <p><span>Language:</span> <%= e.lang %></p>
+          <div class="book-actions">
+            <a href="/editData?id=<%= e.id %>"><button class="edit-btn">Edit</button></a>
+            <a href="/deleteData?id=<%= e.id %>"><button class="delete-btn">Delete</button></a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </section>
+</main>
+</body>
+</html>
