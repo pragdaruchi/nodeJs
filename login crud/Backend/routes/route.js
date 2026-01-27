@@ -3,6 +3,8 @@ const route = express.Router()
 
 const ctl = require("../controller/ctl")
 
+route.post("/login",ctl.loginAdmin)
+
 route.get("/getData", ctl.getData)
 route.post("/postData", ctl.postData)
 route.delete("/deleteData",ctl.deleteData)
