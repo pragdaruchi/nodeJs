@@ -1,13 +1,13 @@
-const express = require("express")
-const route = express.Router()
+const express = require("express");
+const route = express.Router();
 
-const ctl = require("../controller/ctl")
+const ctl = require("../controller/ctl");
 
-route.post("/login",ctl.loginAdmin)
+route.post("/login", ctl.loginAdmin);
 
-route.get("/getData", ctl.getData)
-route.post("/postData", ctl.postData)
-route.delete("/deleteData",ctl.deleteData)
-route.put("/updateData",ctl.updateData)
+route.get("/getData", ctl.getData);
+route.post("/postData", ctl.postData);
+route.delete("/deleteData", ctl.deleteData);
+route.put("/updateData", ctl.updateData);
 
-module.exports = route
+module.exports = route;

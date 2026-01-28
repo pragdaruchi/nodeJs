@@ -41,7 +41,7 @@ export default function AddAdmin() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-slate-600 mb-1">Password</label>
-                        <input type="number" name="password" value={formdata.password} onChange={handleChange} placeholder="Enter password" className="w-full px-4 py-3 rounded-lg border border-slate-300  bg-slate-50  focus:bg-white focus:outline-none  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  transition-all" />
+                        <input type="password" name="password" value={formdata.password} onChange={handleChange} placeholder="Enter password" className="w-full px-4 py-3 rounded-lg border border-slate-300  bg-slate-50  focus:bg-white focus:outline-none  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200  transition-all" />
                     </div>
                     <button type="submit" className="w-full bg-indigo-600 text-white py-3 rounded-xl  font-medium tracking-wide  hover:bg-indigo-700  active:scale-[0.98]  shadow-md hover:shadow-lg  transition-all duration-200" >Add Admin</button>
                 </form>

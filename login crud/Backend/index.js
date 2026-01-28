@@ -4,8 +4,10 @@ const port = 1007
 const app = express()
 const db = require("./config/db")
 const cors = require("cors")
+const cookie = require("cookie-parser")
 
 app.use(express.urlencoded({extended:true}))
+app.use(cookie())
 app.use(cors())
 app.use(express.json())
 
