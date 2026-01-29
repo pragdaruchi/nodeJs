@@ -15,7 +15,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res = await axios.post("http://localhost:1007/login", formdata);
+    let res = await axios.post("http://localhost:1007/login", formdata,{withCredentials:true})
     if (res.data.auth) {
       navigate("/dashboard");
     } else {

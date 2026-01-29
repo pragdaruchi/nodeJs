@@ -4,6 +4,7 @@ const route = express.Router();
 const ctl = require("../controller/ctl");
 
 route.post("/login", ctl.loginAdmin);
+route.get("/AddAdmin",ctl.addCookie)
 
 route.get("/getData", ctl.getData);
 route.post("/postData", ctl.postData);

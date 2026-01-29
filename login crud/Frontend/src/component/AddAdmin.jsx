@@ -16,7 +16,7 @@ export default function AddAdmin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.post("http://localhost:1007/postData", formdata).then((res) => {
+        await axios.post("http://localhost:1007/postData", formdata,{withCredentials: true}).then((res) => {
             alert(res.data.msg);
             navigate("/viewAdmin");
         });
