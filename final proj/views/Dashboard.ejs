@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow Cute</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fdfaff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #ffd6e8, transparent 70%);
+      top: -200px;
+      left: -200px;
+      animation: float1 15s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #d6e4ff, transparent 70%);
+      bottom: -200px;
+      right: -200px;
+      animation: float2 18s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+
+    @keyframes float1 {
+      from {
+        transform: translate(0, 0)
+      }
+
+      to {
+        transform: translate(80px, 60px)
+      }
+    }
+
+    @keyframes float2 {
+      from {
+        transform: translate(0, 0)
+      }
+
+      to {
+        transform: translate(-80px, -60px)
+      }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 15px 40px rgba(255, 182, 193, 0.15);
+    }
+
+    aside a {
+      transition: all 0.35s ease;
+      border-radius: 14px;
+    }
+
+    aside a:hover {
+      background: linear-gradient(135deg, #ffe4f2, #e6f0ff);
+      transform: translateX(8px);
+      box-shadow: 0 10px 25px rgba(255, 182, 193, 0.25);
+    }
+
+    .card {
+      border-radius: 22px;
+      padding: 25px;
+      background: white;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 25px 50px rgba(255, 182, 193, 0.35);
+    }
+
+    .task-card {
+      border-radius: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fff0f6, #eef6ff);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .task-card:hover {
+      transform: rotate(-1deg) scale(1.08);
+      box-shadow: 0 30px 60px rgba(214, 228, 255, 0.5);
+    }
+
+    button {
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 30px rgba(255, 182, 193, 0.4);
+    }
+
+    .fadeUp {
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .fab {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 182, 193, 0.6)
+      }
+
+      70% {
+        box-shadow: 0 0 0 25px rgba(255, 182, 193, 0)
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 182, 193, 0)
+      }
+    }
+
+    .glass::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(120deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.4),
+          transparent 70%);
+      transform: rotate(25deg);
+      animation: shine 6s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(25deg);
+      }
+
+      100% {
+        transform: translateX(100%) rotate(25deg);
+      }
+    }
+
+    .glass {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass:hover {
+      box-shadow:
+        0 0 25px rgba(255, 182, 193, 0.5),
+        0 0 50px rgba(214, 228, 255, 0.4);
+      transform: translateY(-5px);
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, #ffd6e8, #d6e4ff, #e0c3fc);
+      border-radius: 24px;
+      z-index: -1;
+      opacity: 0;
+      transition: 0.4s;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+      filter: blur(12px);
+    }
+
+    .task-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg,
+          transparent,
+          rgba(255, 255, 255, 0.6),
+          transparent);
+      transition: 0.6s;
+    }
+
+    .task-card:hover::after {
+      left: 100%;
+    }
+
+    aside a {
+      position: relative;
+      overflow: hidden;
+    }
+
+    aside a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at left, #ffe4f2, transparent 70%);
+      opacity: 0;
+      transition: 0.4s;
+      z-index: -1;
+    }
+
+    aside a:hover::before {
+      opacity: 1;
+    }
+
+    body::selection {
+      background: #ffd6e8;
+      color: #444;
+    }
+
+    .task-card:hover {
+      animation: floatCard 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCard {
+      from {
+        transform: translateY(-6px) rotate(-1deg);
+      }
+
+      to {
+        transform: translateY(-12px) rotate(1deg);
+      }
+    }
+
+    button {
+      background: linear-gradient(135deg, #ffd6e8, #d6e4ff);
+      border: none;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ffb3d9, #bcd4ff);
+    }
+
+    body {
+      animation: pageFade 1s ease;
+    }
+
+    @keyframes pageFade {
+      from {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="flex h-screen">
+
+    <aside class="w-72 glass p-8 flex flex-col shadow-xl">
+
+      <h1 class="text-3xl font-bold mb-12 bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
+        TaskFlow 🌸
+      </h1>
+
+      <nav class="space-y-4 text-gray-600 font-medium">
+        <a class="flex gap-3 p-3">🏠 Dashboard</a>
+        <a href="/task/AddAdmin" class="flex gap-3 p-3">➕ Add Tasks</a>
+        <a href="/task/ViewAdmin" class="flex gap-3 p-3">📋 All Tasks</a>
+        <a class="flex gap-3 p-3">⏳ Pending</a>
+        <a class="flex gap-3 p-3">🚀 In Progress</a>
+        <a class="flex gap-3 p-3">✅ Completed</a>
+        <a class="flex gap-3 p-3" href="/login">Log Out</a>
+      </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-12 overflow-y-auto">
+
+      <div class="flex justify-between items-center mb-12 fadeUp">
+        <div>
+          <h2 class="text-4xl font-bold text-gray-700">My Tasks ✨</h2>
+          <p class="text-gray-400 mt-2">Organize your day beautifully</p>
+        </div>
+        <input type="text" placeholder="Search..."
+          class="px-6 py-3 rounded-2xl bg-white shadow-md outline-none focus:ring-2 focus:ring-pink-300">
+      </div>
+
+      <!-- STATS -->
+      <div class="grid grid-cols-4 gap-8 mb-14">
+
+        <div class="card fadeUp">
+          <p class="text-gray-400">Total Tasks</p>
+          <h3 class="text-4xl font-bold text-pink-400 mt-3">32</h3>
+        </div>
+
+        <div class="card fadeUp">
+          <p class="text-gray-400">Pending</p>
+          <h3 class="text-4xl font-bold text-yellow-400 mt-3">12</h3>
+        </div>
+
+        <div class="card fadeUp">
+          <p class="text-gray-400">In Progress</p>
+          <h3 class="text-4xl font-bold text-blue-400 mt-3">10</h3>
+        </div>
+
+        <div class="card fadeUp">
+          <p class="text-gray-400">Completed</p>
+          <h3 class="text-4xl font-bold text-green-400 mt-3">10</h3>
+        </div>
+
+      </div>
+
+      <!-- CHART -->
+      <div class="overview-card p-6 rounded-2xl mb-12 fadeUp mx-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+            <span class="sparkle">🌈</span> Task Overview
+          </h3>
+          <span class="text-xs bg-pink-100 text-pink-500 px-3 py-1 rounded-full">
+            Weekly Stats
+          </span>
+        </div>
+
+        <canvas id="taskChart" height="10" width="40"></canvas>
+      </div>
+
+      <!-- TASK BOARD -->
+      <h3 class="text-2xl font-bold mb-8 text-gray-700 fadeUp">Task Board 💕</h3>
+
+      <div class="grid grid-cols-3 gap-10">
+
+        <div class="space-y-6 fadeUp">
+          <h4 class="text-yellow-500 font-semibold">Pending</h4>
+          <div class="task-card">
+            <h5 class="font-semibold text-gray-700">Design Landing Page</h5>
+            <p class="text-gray-400 mt-2 text-sm">Due: 28 Feb 2026</p>
+          </div>
+        </div>
+
+        <div class="space-y-6 fadeUp">
+          <h4 class="text-blue-500 font-semibold">In Progress</h4>
+          <div class="task-card">
+            <h5 class="font-semibold text-gray-700">API Integration</h5>
+            <p class="text-gray-400 mt-2 text-sm">Due: 2 Mar 2026</p>
+          </div>
+        </div>
+
+        <div class="space-y-6 fadeUp">
+          <h4 class="text-green-500 font-semibold">Completed</h4>
+          <div class="task-card">
+            <h5 class="font-semibold text-gray-700">User Testing</h5>
+            <p class="text-gray-400 mt-2 text-sm">Due: 5 Mar 2026</p>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FLOAT BUTTON -->
+  <a href="/task/AddAdmin">
+    <button
+      class="fixed h-10 w-10 bottom-10 right-10 bg-gradient-to-r from-pink-400 to-blue-400 text-white rounded-full text-xl fab">
+      +
+    </button>
+  </a>
+
+  <script>
+    const ctx = document.getElementById('taskChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Pending', 'In Progress', 'Completed'],
+        datasets: [{
+          label: 'Tasks',
+          data: [12, 10, 10],
+          backgroundColor: ['#FACC15', '#60A5FA', '#34D399']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
+
+</body>
+
+</html>

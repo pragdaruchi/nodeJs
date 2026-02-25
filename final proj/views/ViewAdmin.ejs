@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Admin</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Quicksand',sans-serif;
+  background:#fdfaff;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* 🌸 Floating pastel blobs */
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle,#ffd6e8,transparent 70%);
+  top:-150px;
+  left:-150px;
+  animation:float1 12s infinite alternate ease-in-out;
+  z-index:-1;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle,#d6e4ff,transparent 70%);
+  bottom:-150px;
+  right:-150px;
+  animation:float2 15s infinite alternate ease-in-out;
+  z-index:-1;
+}
+
+@keyframes float1{
+  from{transform:translate(0,0)}
+  to{transform:translate(60px,40px)}
+}
+
+@keyframes float2{
+  from{transform:translate(0,0)}
+  to{transform:translate(-60px,-40px)}
+}
+
+/* 💎 Glass Container */
+.glass{
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,0.6);
+  box-shadow:0 20px 60px rgba(214,228,255,0.25);
+  border-radius:24px;
+  animation:fadeUp 0.8s ease;
+}
+
+/* ✨ Table header gradient */
+thead{
+  background:linear-gradient(135deg,#ffd6e8,#d6e4ff);
+  color:#444;
+}
+
+/* 🌈 Row hover animation */
+tbody tr{
+  transition:all 0.3s ease;
+}
+
+tbody tr:hover{
+  background:linear-gradient(135deg,#fff0f6,#eef6ff);
+  transform:scale(1.01);
+}
+
+/* 🎀 Action buttons */
+button{
+  transition:all 0.3s ease;
+  border-radius:10px;
+  font-weight:600;
+}
+
+button:hover{
+  transform:scale(1.1);
+  box-shadow:0 10px 25px rgba(255,182,193,0.4);
+}
+
+/* 🌟 Fade animation */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:translateY(0)}
+}
+</style>
+
+</head>
+
+<body class="min-h-screen p-10">
+
+<div class="max-w-6xl mx-auto glass p-8">
+
+<h1 class="text-4xl font-bold mb-8 text-center text-gray-700">
+✨ View Tasks Dashboard
+</h1>
+
+<div class="overflow-x-auto rounded-2xl">
+
+<table class="min-w-full overflow-hidden">
+
+<thead>
+<tr>
+<th class="py-4 px-6 text-left">Task</th>
+<th class="py-4 px-6 text-left">Description</th>
+<th class="py-4 px-6 text-left">Status</th>
+<th class="py-4 px-6 text-left">Priority</th>
+<th class="py-4 px-6 text-left">Date</th>
+<th class="py-4 px-6 text-center">Actions</th>
+</tr>
+</thead>
+
+<tbody class="text-gray-700">
+
+<% data.map((e, i) => { %>
+
+<tr class="border-b border-gray-100">
+
+<td class="py-3 px-6 font-semibold"><%= e.task %></td>
+
+<td class="py-3 px-6"><%= e.description %></td>
+
+<td class="py-3 px-6">
+<span class="px-3 py-1 rounded-full text-sm bg-pink-100 text-pink-600">
+<%= e.status %>
+</span>
+</td>
+
+<td class="py-3 px-6">
+<span class="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-600">
+<%= e.priority %>
+</span>
+</td>
+
+<td class="py-3 px-6"><%= e.date %></td>
+
+<td class="py-3 px-6 text-center space-x-2">
+
+<a href="/task/editData?id=<%= e.id %>">
+<button class="px-4 py-2 text-sm font-semibold text-white 
+bg-gradient-to-r from-pink-400 to-rose-400 
+hover:from-pink-500 hover:to-rose-500
+transition-all duration-300 rounded-xl shadow-md hover:shadow-pink-300/50 hover:scale-110">
+Edit
+</button>
+</a>
+
+<a href="/task/deleteData?id=<%= e.id %>">
+<button class="px-4 py-2 text-sm font-semibold text-white 
+bg-gradient-to-r from-indigo-400 to-blue-400 
+hover:from-indigo-500 hover:to-blue-500
+transition-all duration-300 rounded-xl shadow-md hover:shadow-blue-300/50 hover:scale-110">
+Delete
+</button>
+</a>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
