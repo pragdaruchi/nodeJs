@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Add Data</h1>
+    <form action="appData" method="post">
+        <input type="text" placeholder="Enter Your Name" name="name">
+        <input type="text" placeholder="Enter Your Age" name="age">
+        <input type="text" placeholder="Enter Your Password" name="password">
+        <input type="text" placeholder="Enter Your Phone" name="phone">
+        <button type="submit">Submit</button>
+    </form>
+    <%data.map((e,i)=>{%>
+  <ul>
+    <li><%=e.name%></li>
+    <li><%=e.age%></li>
+    <li><%=e.password%></li>
+    <li><%=e.phone%></li>
+    <li><a href="/editData/?id=<%=e.id%>"><button>Edit</button></a></li>
+    <li><a href="/deleteData/?id=<%=e.id%>"><button>Delete</button></a></li>
+  </ul>
+    <%})%>
+</body>
+
+</html>

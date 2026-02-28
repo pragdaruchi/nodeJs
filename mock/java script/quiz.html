@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="quiz-form">
+
+        <h2>What is JS ?</h2>
+        <label><input type="radio" name="q1" value="javascript" required>JavaScript</label><br>
+        <label><input type="radio" name="q1" value="joyscript">Joy Script</label><br>
+        <label><input type="radio" name="q1" value="javastart">Java Start</label><br>
+        <label><input type="radio" name="q1" value="jscript">J Script</label>
+
+        <h2>What is the sum of 4 + 235 ?</h2>
+        <label><input type="radio" name="q2" value="239" required>239</label><br>
+        <label><input type="radio" name="q2" value="2354">2354</label><br>
+        <label><input type="radio" name="q2" value="234">234</label><br>
+        <label><input type="radio" name="q2" value="0">0</label>
+
+        <h2>What is JSX ?</h2>
+        <label><input type="radio" name="q3" value="javascript xml" required>JavaScript XML</label><br>
+        <label><input type="radio" name="q3" value="joyscriptx">Joy Script X</label><br>
+        <label><input type="radio" name="q3" value="javastartx">Java Start X</label><br>
+        <label><input type="radio" name="q3" value="jscriptxml">J Script XML</label>
+
+        <h2>Which is a vowel ?</h2>
+        <label><input type="radio" name="q4" value="a" required>a</label><br>
+        <label><input type="radio" name="q4" value="e">e</label><br>
+        <label><input type="radio" name="q4" value="i">i</label><br>
+        <label><input type="radio" name="q4" value="all">all of the above</label><br><br>
+
+        <button type="submit">Submit Answers</button>
+    </form>
+    <div id="feedback" style="margin-top:20px;"></div>
+    <script src="./quiz.js"></script>
+</body>
+
+</html>
